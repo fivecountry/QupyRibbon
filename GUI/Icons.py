@@ -15,6 +15,7 @@ def get_icon(name):
 class Icons(object):
     def __init__(self):
         self._icons = {}
+        self.make_icon("icon", "icons/icon.png")
         self.make_icon("default", "icons/license.png")
         #文件
         self.make_icon('文件-帮助', "icons/文件/帮助.ico")

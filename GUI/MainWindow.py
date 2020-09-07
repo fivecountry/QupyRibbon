@@ -1,13 +1,19 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QKeySequence as QKSec
+from PyQt5.QtGui import QBrush, QColor, QIcon, QPixmap
+from PyQt5.QtCore import Qt
 from GUI.RibbonButton import RibbonButton
 from GUI.Icons import get_icon
 from GUI.RibbonTextbox import RibbonTextbox
 from GUI.RibbonWidget import *
+import os
+import pathlib
 
 __author__ = 'mamj'
 
-
+'''
+    主窗体
+'''
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self, None)
@@ -15,17 +21,57 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("传热分析软件")
         self.setDockNestingEnabled(True)
         self.setWindowIcon(get_icon("icon"))
+        self._tree_dock_widget = QDockWidget(self)
+        self._tree_dock_widget.setObjectName("TreeDock")
+        self._tree_dock_widget.setWindowTitle("树")
+        self._tree_widget = QTreeWidget(self)
+        self._tree_dock_widget.setFixedWidth(300)
+        self._tree_widget.clear()
+        #设置根节点
+        root=QTreeWidgetItem(self._tree_widget)
+        root.setText(0,'根节点')
+        #root.setIcon(0,QIcon('./images/root.png'))
+        # todo 优化2 设置根节点的背景颜色
+        brush_red=QBrush(Qt.red)
+        root.setBackground(0,brush_red)
+        #设置子节点1
+        child1=QTreeWidgetItem()
+        child1.setText(0,'子节点1')
+        #child1.setText(1,'ios')
+        #child1.setIcon(0,QIcon('./images/IOS.png'))
+        #todo 优化1 设置节点的状态
+        child1.setCheckState(0,Qt.Checked)
+        root.addChild(child1)
+        #设置子节点2
+        child2=QTreeWidgetItem(root)
+        child2.setText(0,'子节点2')
+        #child2.setText(1,'')
+        #child2.setIcon(0,QIcon('./images/android.png'))
+        #设置子节点3
+        child3=QTreeWidgetItem(child2)
+        child3.setText(0,'子节点3')
+        #child3.setText(1,'android')
+        #child3.setIcon(0,QIcon('./images/music.png'))
+        #加载根节点的所有属性与子控件
+        self._tree_widget.addTopLevelItem(root)
+
+        self._tree_dock_widget.setWidget(self._tree_widget)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self._tree_dock_widget)
         self._main_dock_widget = QDockWidget(self)
         self._main_dock_widget.setObjectName("MainDock")
-        self._main_dock_widget.setWindowTitle("Main dock")
-        self.addDockWidget(Qt.LeftDockWidgetArea, self._main_dock_widget)
+        self._main_dock_widget.setWindowTitle("展示")
+        self._label_widget = QLabel('展示区', self)
+        self._main_dock_widget.setWidget(self._label_widget)
+        self.addDockWidget(Qt.RightDockWidgetArea, self._main_dock_widget)
         self.centralWidget()
-       
-       # Ribbon
+        # Ribbon
         self._ribbon = RibbonWidget(self)
         self.addToolBar(self._ribbon)
         self.init_ribbon()
 
+    '''
+        添加动作
+    '''
     def add_action(self, caption, icon_name, status_tip, icon_visible, connection, shortcut=None):
         action = QAction(get_icon(icon_name), caption, self)
         action.setStatusTip(status_tip)
@@ -37,16 +83,20 @@ class MainWindow(QMainWindow):
         return action
 
     '''
+        创建菜单
     '''
     def buildPanelMenu(self, pName, actions):
         home_tab = self._ribbon.add_ribbon_tab(pName)
         jm_pane = home_tab.add_ribbon_pane("")
         for k, v in actions.items():
-            tempDelegate = QActionClickedDelegate(k)
+            tempDelegate = QActionClickedDelegate(pName, k, self._label_widget)
             tButton = RibbonButton(self, self.add_action(k, v, k, True, tempDelegate.on_action_click, None), True)
             tButton.tempDelegate = tempDelegate
             jm_pane.add_ribbon_widget(tButton)
 
+    '''
+        初始化
+    '''
     def init_ribbon(self):
         kvv = {}
         kvv['新建'] = '文件-新建'
@@ -133,10 +183,24 @@ class MainWindow(QMainWindow):
     def closeEvent(self, close_event):
         pass
 
+'''
+    菜单项事件类
+'''
 class QActionClickedDelegate(object):
-    def __init__(self, aName):
+    def __init__(self, pName, aName, widget):
         super().__init__()
-        self._actionName = aName
+        self.panelName = pName
+        self.actionName = aName
+        self.labelWidget = widget
 
     def on_action_click(self):
-        print(self._actionName)
+        #拼装路径
+        imgPath = os.path.join(os.getcwd(), 'bgImages', self.panelName, self.actionName + '.png')
+        print(imgPath)
+        if pathlib.Path(imgPath).exists():
+            #显示Gif的方法如下：
+            #self.gif = QMovie('qq.gif')
+            #self.labelWidget.setMovie(self.gif)
+            #self.gif.start()
+            #显示一般图片
+            self.labelWidget.setPixmap(QPixmap(imgPath))
