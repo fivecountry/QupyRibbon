@@ -18,6 +18,9 @@ class RibbonWidget(QToolBar):
         self.setMovable(False)
         self.addWidget(self._ribbon_widget)
 
+    def clearAll(self):
+        self._ribbon_widget.clear()
+
     def add_ribbon_tab(self, name):
         ribbon_tab = RibbonTab(self, name)
         ribbon_tab.setObjectName("tab_" + name)
