@@ -25,6 +25,8 @@ class MainWindow(QMainWindow):
         self._tree_dock_widget.setObjectName("TreeDock")
         self._tree_dock_widget.setWindowTitle("资源管理器")
         self._tree_widget = QTreeWidget(self)
+        # self._tree_widget.setHeaderHidden(True)
+        self._tree_widget.setHeaderLabel('树标题')
         self._tree_dock_widget.setFixedWidth(300)
         self._tree_widget.clear()
         #设置根节点
@@ -32,8 +34,8 @@ class MainWindow(QMainWindow):
         root.setText(0,'根节点')
         #root.setIcon(0,QIcon('./images/root.png'))
         # todo 优化2 设置根节点的背景颜色
-        brush_red=QBrush(Qt.blue)
-        root.setBackground(0,brush_red)
+        #brush_red=QBrush(Qt.blue)
+        #root.setBackground(0,brush_red)
         #设置子节点1
         child1=QTreeWidgetItem()
         child1.setText(0,'子节点1')

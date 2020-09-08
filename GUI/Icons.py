@@ -1,4 +1,6 @@
 from PyQt5.QtGui import *
+import os
+import pathlib
 
 __author__ = 'magnus'
 
@@ -17,6 +19,7 @@ class Icons(object):
         self._icons = {}
         self.make_icon("icon", "icons/icon.png")
         self.make_icon("default", "icons/license.png")
+        '''
         #文件
         self.make_icon('文件-帮助', "icons/文件/帮助.ico")
         self.make_icon('文件-查找', "icons/文件/查找.ico")
@@ -109,6 +112,7 @@ class Icons(object):
         self.make_icon("求解器-解算方案", "icons/求解器/解算方案.ico")
         self.make_icon("求解器-耐久性仿真", "icons/求解器/耐久性仿真.ico")
         self.make_icon("求解器-适应性设置", "icons/求解器/适应性设置.ico")
+        '''
 
     def make_icon(self, name, path):
         icon = QIcon()
@@ -117,8 +121,18 @@ class Icons(object):
 
     def icon(self, name):
         icon = self._icons["default"]
-        try:
-            icon = self._icons[name]
-        except KeyError:
-            print("icon " + name + " not found")
+        if self._icons.__contains__(name) == True:
+            try:
+                icon = self._icons[name]
+            except KeyError:
+                print("icon " + name + " not found")
+        else:
+            imgPath = os.path.join(os.getcwd(), 'icons', name.split('-')[0], name.split('-')[1] + '.ico')
+            if pathlib.Path(imgPath).exists():
+                print(imgPath)
+                self.make_icon(name, imgPath)
+                try:
+                    icon = self._icons[name]
+                except KeyError:
+                    print("icon " + name + " not found")
         return icon
