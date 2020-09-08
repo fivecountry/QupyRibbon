@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(get_icon("icon"))
         self._tree_dock_widget = QDockWidget(self)
         self._tree_dock_widget.setObjectName("TreeDock")
-        self._tree_dock_widget.setWindowTitle("树")
+        self._tree_dock_widget.setWindowTitle("资源管理器")
         self._tree_widget = QTreeWidget(self)
         self._tree_dock_widget.setFixedWidth(300)
         self._tree_widget.clear()
@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
         root.setText(0,'根节点')
         #root.setIcon(0,QIcon('./images/root.png'))
         # todo 优化2 设置根节点的背景颜色
-        brush_red=QBrush(Qt.red)
+        brush_red=QBrush(Qt.blue)
         root.setBackground(0,brush_red)
         #设置子节点1
         child1=QTreeWidgetItem()
@@ -59,8 +59,8 @@ class MainWindow(QMainWindow):
         self.addDockWidget(Qt.LeftDockWidgetArea, self._tree_dock_widget)
         self._main_dock_widget = QDockWidget(self)
         self._main_dock_widget.setObjectName("MainDock")
-        self._main_dock_widget.setWindowTitle("展示")
-        self._label_widget = QLabel('展示区', self)
+        self._main_dock_widget.setWindowTitle("工作区")
+        self._label_widget = QLabel('', self)
         self._main_dock_widget.setWidget(self._label_widget)
         self.addDockWidget(Qt.RightDockWidgetArea, self._main_dock_widget)
         self.centralWidget()
@@ -179,6 +179,25 @@ class MainWindow(QMainWindow):
         kvv['移动面'] = '直接建模-移动面'
         kvv['圆角重新排序'] = '直接建模-圆角重新排序'
         self.buildPanelMenu('直接建模', kvv)
+        kvv = {}
+        kvv['几何优化'] = '求解器-几何优化'
+        kvv['解算方案'] = '求解器-解算方案'
+        kvv['耐久性仿真'] = '求解器-耐久性仿真'
+        kvv['适应性设置'] = '求解器-适应性设置'
+        self.buildPanelMenu('求解器', kvv)
+        kvv = {}
+        kvv['编辑后处理视图'] = '后处理-编辑后处理视图'
+        kvv['标记开关'] = '后处理-标记开关'
+        kvv['标记拖动'] = '后处理-标记拖动'
+        kvv['标识结果'] = '后处理-标识结果'
+        kvv['播放'] = '后处理-播放'
+        kvv['动画'] = '后处理-动画'
+        kvv['忽略背面'] = '后处理-忽略背面'
+        kvv['结果操控'] = '后处理-结果操控'
+        kvv['上一模态'] = '后处理-上一模态'
+        kvv['设置结果'] = '后处理-设置结果'
+        kvv['下一模态'] = '后处理-下一模态'
+        self.buildPanelMenu('后处理', kvv)
 
     def closeEvent(self, close_event):
         pass

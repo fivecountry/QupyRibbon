@@ -92,6 +92,23 @@ class Icons(object):
         self.make_icon("模型清理-圆形压印", "icons/模型清理/圆形压印.ico")
         self.make_icon("模型清理-重置", "icons/模型清理/重置.ico")
         self.make_icon("模型清理-自动修复几何体", "icons/模型清理/自动修复几何体.ico")
+        #后处理
+        self.make_icon("后处理-编辑后处理视图", "icons/后处理/编辑后处理视图.ico")
+        self.make_icon("后处理-标记开关", "icons/后处理/标记开关.ico")
+        self.make_icon("后处理-标记拖动", "icons/后处理/标记拖动.ico")
+        self.make_icon("后处理-标识结果", "icons/后处理/标识结果.ico")
+        self.make_icon("后处理-播放", "icons/后处理/播放.ico")
+        self.make_icon("后处理-动画", "icons/后处理/动画.ico")
+        self.make_icon("后处理-忽略背面", "icons/后处理/忽略背面.ico")
+        self.make_icon("后处理-结果操控", "icons/后处理/结果操控.ico")
+        self.make_icon("后处理-上一模态", "icons/后处理/上一模态.ico")
+        self.make_icon("后处理-设置结果", "icons/后处理/设置结果.ico")
+        self.make_icon("后处理-下一模态", "icons/后处理/下一模态.ico")
+        # 求解器
+        self.make_icon("求解器-几何优化", "icons/求解器/几何优化.ico")
+        self.make_icon("求解器-解算方案", "icons/求解器/解算方案.ico")
+        self.make_icon("求解器-耐久性仿真", "icons/求解器/耐久性仿真.ico")
+        self.make_icon("求解器-适应性设置", "icons/求解器/适应性设置.ico")
 
     def make_icon(self, name, path):
         icon = QIcon()
