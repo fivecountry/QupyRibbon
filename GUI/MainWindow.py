@@ -224,4 +224,7 @@ class QActionClickedDelegate(object):
             #self.labelWidget.setMovie(self.gif)
             #self.gif.start()
             #显示一般图片
-            self.labelWidget.setPixmap(QPixmap(imgPath))
+            pixmap = QPixmap(imgPath)
+            laSize = self.labelWidget.size()
+            scaredPixmap = pixmap.scaled(laSize, Qt.IgnoreAspectRatio)
+            self.labelWidget.setPixmap(scaredPixmap)
